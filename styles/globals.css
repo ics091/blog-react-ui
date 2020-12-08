@@ -14,3 +14,11 @@ a {
 * {
   box-sizing: border-box;
 }
+
+body .ant-layout {
+  background: unset;
+}
+
+body .ant-layout-footer {
+  background: unset;
+}

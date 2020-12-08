@@ -1,4 +1,5 @@
 import { Layout } from 'antd';
+import { Row, Col } from 'antd'
 import Head from 'next/head'
 import Navi from '../components/navi'
 
@@ -12,12 +13,28 @@ export default function glo_Layout({ children }) {
                 <title>icskkk's blog</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <Navi />
+            <Row>
+                <Col span={5}></Col>
+                <Col span={14}>
+                    <Navi />
+                </Col>
+                <Col span={5}></Col>
+            </Row>
             <Content>
-                { children }
+            <Row>
+                <Col span={5}></Col>
+                <Col span={14}>
+                    { children }
+                </Col>
+                <Col span={5}></Col>
+            </Row>
             </Content>
             <Footer>
-                Footer
+            <Row>
+                <Col span={5}></Col>
+                <Col span={14}>...</Col>
+                <Col span={5}></Col>
+            </Row>
             </Footer>
         </Layout>
     )

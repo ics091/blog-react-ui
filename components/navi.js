@@ -12,6 +12,7 @@ class Navi extends React.Component {
     // componentDidMount() {
     //     console.log(this.props.router)
     // }
+    
     state = {
         current: this.props.router.pathname.slice(1) == ''?'home':this.props.router.pathname.slice(1),
     };
