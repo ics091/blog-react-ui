@@ -1,6 +1,8 @@
 import { FileMarkdownFilled } from '@ant-design/icons'
 import Glolayout from '../../components/global_layout'
 import '../../config/config.js'
+import ReactMarkdown from 'react-markdown'
+import gfm from 'remark-gfm'
 
 const marked = require('marked')
 
@@ -10,13 +12,14 @@ export default function Blog({ json_data }) {
             <>
                 <h1>{json_data['title']}</h1>
                 <h2>{json_data['datetime']}</h2>
-                <div
+                {/* <div
                     dangerouslySetInnerHTML = {
                         {
                             __html: marked(json_data['content'])
                         }
                     }
-                />
+                /> */}
+                <ReactMarkdown source={json_data['content']} />
             </>
         </Glolayout>
     )
