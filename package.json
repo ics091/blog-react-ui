@@ -17,6 +17,7 @@
     "react-dom": "17.0.1",
     "react-markdown": "^5.0.3",
     "react-monaco-editor": "^0.40.0",
+    "react-syntax-highlighter": "^15.4.3",
     "remark-gfm": "^1.0.0"
   }
 }

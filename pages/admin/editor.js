@@ -1,26 +1,117 @@
-import React from 'react';
-import { Row, Col, Card, Button } from 'antd';
+import React, { useState } from 'react';
+import { Row, Col, Card, Button, Input, Select, Modal, Typography, Tag} from 'antd';
 import 'antd/dist/antd.css'
-import { Input } from 'antd';
 const { TextArea } = Input;
 import ReactMarkdown from 'react-markdown'
 import gfm from 'remark-gfm'
-import Glolayout from '../../components/global_layout'
-import { UploadOutlined, CheckOutlined } from '@ant-design/icons';
+import { UploadOutlined, CheckOutlined, DashOutlined } from '@ant-design/icons';
+
+const { Option } = Select;
+const { Text, Link } = Typography;
+
+function ConfirmPop(props) {
+
+    let title = props.submit_content.title;
+    let text = props.submit_content.text;
+    let text_len = props.submit_content.text_len;
+    let detail = props.submit_content.description;
+    let top_img = props.submit_content.top_img;
+    let tags = props.submit_content.tags;
+
+    const [isModalVisible, setIsModalVisible] = useState(false);
+
+    const show_tags = []
+    for (var t in tags) {
+        show_tags.push(<Tag key={t} color="magenta" >{ tags[t] }</Tag>);
+    }
+
+    const showModal = () => {
+        setIsModalVisible(true);
+    };
+
+    const handleOk = () => {
+        let post_data = props.submit_content;
+        post_data.tags = post_data.tags.toString();
+
+        // let jsonStr = JSON.stringify(post_data);
+        // console.log(jsonStr)
+        postArticle(post_data);
+        setIsModalVisible(false);
+    };
+
+    const handleCancel = () => {
+        setIsModalVisible(false);
+    };
+
+    return (
+        <>
+            <Button type="primary" onClick={showModal} shape="round" icon={<CheckOutlined />}>
+                完成
+            </Button>
+            <Modal
+                title="Check before publish"
+                visible={isModalVisible}
+                onOk={handleOk}
+                onCancel={handleCancel}
+            >
+                <Text strong>Title: { title }</Text>
+                <br />
+                <Text>Total: { text_len } characters</Text>
+                <br />
+                <Text type="secondary">Description: { detail }</Text>
+                <br />
+                <Link href={ top_img } target="_black">Image url</Link>
+                <br />
+                <div>Tags: { show_tags }</div>
+            </Modal>
+        </>
+    );
+}
 
 class SoSo_Editor extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            title: '',
+            description: '',
+            top_img: '',
+            tags: [],
             text: '## Input markdown text here...',
+            text_len: 30,
         }
     }
 
     handleInputChange = (e) => {
         this.setState({
-            text: e.target.value
+            text: e.target.value,
+            text_len: e.target.value.length
         });
+    }
+
+    handleTagChange = (value) => {
+        console.log(value);
+        this.setState({ tags: value });
+    }
+
+    handleOtherChange = (e) => {
+        const target = e.target;
+        switch(target.name) {
+            case 'title':
+                this.setState({ title: target.value });
+                break;
+            case 'desc':
+                this.setState({ description: target.value });
+                break;
+            case 'top_img':
+                this.setState({ top_img: target.value });
+                break;
+            default: 
+        }
+    }
+
+    handelSubmit = (e) => {
+        console.log(this.state.tags)
     }
 
     render() {
@@ -29,14 +120,65 @@ class SoSo_Editor extends React.Component {
                 <Card title="SoSo编辑器" bordered={true}>
                     <Row>
                     <Col span={12}>
-                    <TextArea rows={30} bordered={true} showCount={true} value={this.state.text} onChange={this.handleInputChange}></TextArea>
-                    <Button type="primary" shape="round" icon={<CheckOutlined />}>完成</Button>
+                    <form>
+                        <TextArea rows={25}
+                                bordered={true} 
+                                showCount={true} 
+                                value={this.state.text} 
+                                onChange={this.handleInputChange} > 
+                        </TextArea>
+
+                        <Input name="title" 
+                            placeholder={'Title'} 
+                            value={this.state.title}
+                            onChange={this.handleOtherChange} />
+
+                        <TextArea name="desc"
+                                showCount
+                                maxLength={200} 
+                                placeholder={'Simple description'}
+                                value={this.state.description} 
+                                onChange={this.handleOtherChange}
+                                style={{ padding: '16px 0' }} />
+
+                        <Input name="top_img" 
+                            placeholder="Top image url..." 
+                            value={this.state.top_img}
+                            onChange={this.handleOtherChange} />
+
+                        <Select
+                            mode="multiple"
+                            allowClear
+                            style={{ width: '100%', padding: '16px 0' }}
+                            placeholder="Please select tags"
+                            value={this.state.tags}
+                            onChange={this.handleTagChange}
+                        >
+                            {this.props._tags}
+                        </Select>
+
+                        <br />
+
+                        <Button type="link">资源上传</Button>
+
+                        {/* <Button type="primary" 
+                                shape="round" 
+                                icon={<CheckOutlined />}
+                                onClick={this.handelSubmit}
+                        >
+                        完成
+                        </Button> */}
+                        <ConfirmPop submit_content={ this.state } />
+                        
+                    </form>
                     </Col>
+
                     <Col span={12}>
-                    <div style={{ padding: '0 16px' }}>
-                    <ReactMarkdown plugins={[gfm]} children={ this.state.text } />
-                    </div>
+                        <div style={{ padding: '0 16px' }}>
+                        <ReactMarkdown plugins={[gfm]} children={ this.state.text } />
+                        </div>
                     </Col>
+
                     </Row>
                 </Card>
             </div>
@@ -44,10 +186,41 @@ class SoSo_Editor extends React.Component {
     }
 }
 
-export default function Editor() {
+export async function postArticle(json_post) {
+    console.log(JSON.stringify(json_post))
+    const res = await fetch('http://localhost:8080/admin/addArticle', {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(json_post)
+    })
+    const post_result = await res.json()
+}
+
+export async function getStaticProps() {
+    const res = await fetch('http://localhost:8080/option/allTags')
+    const json_tags = await res.json()
+
+    return {
+        props: {
+            json_tags,
+        },
+    }
+}
+
+export default function Editor({ json_tags }) {
+    const fetch_tags = { json_tags }
+    const children = [];
+    for(var t in fetch_tags.json_tags) {
+        // console.log(fetch_tags.json_tags[t]['tag_name']);
+        children.push(<Option key={fetch_tags.json_tags[t]['tag_name']}>{fetch_tags.json_tags[t]['tag_name']}</Option>);
+    }
+    
     return(
         <>
-        <SoSo_Editor />
+        <SoSo_Editor _tags={ children } />
         </>
     )
 }
