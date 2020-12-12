@@ -1,29 +1,38 @@
-import { useRouter } from 'next/router'
+import React from 'react'
 import Glolayout from '../../components/global_layout'
 import '../../config/config.js'
+import ReactMarkdown from 'react-markdown'
+import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
+const renderers = {
+  code: ({language, value}) => {
+    return <SyntaxHighlighter language={language} children={value} />
+  }
+}
 
-const Post = () => {
-  const router = useRouter()
-  const { aid } = router.query
-  console.log( aid )
+class Post extends React.Component{
 
-  return(
-    <Glolayout>
-        <>
-        </>
-    </Glolayout>
+  static async getInitialProps(context) {
+    let url = context.query.aid
+    if (Array.isArray(url)) {
+      url = url[0];
+    }
+    const res = await fetch('http://localhost:8080/article/' + url)
+    const json_data = await res.json()
+  
+    return {
+        json_data
+    }
+  }
+
+  render() {
+    return(
+        <Glolayout>
+            <>
+            <ReactMarkdown renderers={renderers} source={this.props.json_data['content']} />
+            </>
+        </Glolayout>
     )
+  }
 }
 
 export default Post
-
-// export async function getArticle ( id ) {
-//     const res = await fetch('http://localhost:8080/article/' + id)
-//     const json_data = await res.json()
-
-//     return {
-//         props: {
-//             json_data,
-//         },
-//     }
-// }

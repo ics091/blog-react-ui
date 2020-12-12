@@ -24,17 +24,14 @@ export default function glo_Layout({ children }) {
             <Row>
                 <Col span={5}></Col>
                 <Col span={14}>
+                <br />
                     { children }
                 </Col>
                 <Col span={5}></Col>
             </Row>
             </Content>
-            <Footer>
-            <Row>
-                <Col span={5}></Col>
-                <Col span={14}>...</Col>
-                <Col span={5}></Col>
-            </Row>
+            <Footer style={{ textAlign: 'center' }}>
+            ICSKKK BLOG ©2020 Created by icskkk
             </Footer>
         </Layout>
     )

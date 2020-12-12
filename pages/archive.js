@@ -1,10 +1,45 @@
 import Glolayout from '../components/global_layout'
+import '../config/config.js'
+import { List, Avatar, Space } from 'antd';
+import { MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons';
 
-export default function Home() {
+const marked = require('marked')
+
+export default function All_Articles({ json_data }) {
+  const data = []
+  var l = json_data.length
+  for (var i in json_data) {
+    data.push(json_data[l-i-1])
+  }
+
   return(
       <Glolayout>
-          Archive 
+          <>
+          <List
+              itemLayout="horizontal"
+              dataSource={data}
+              renderItem={item => (
+                  <List.Item>
+                      <List.Item.Meta
+                          avatar={<Avatar src={ item.top_img } />}
+                          title={<a href={ 'http://localhost:3000/posts/' + item.id }>{ item.title }</a>}
+                          description={ item.detail }
+                      />
+                  </List.Item>
+              )}
+          />
+          </>
       </Glolayout>
   )
 }
 
+export async function getStaticProps() {
+    const res = await fetch('http://localhost:8080/article/all')
+    const json_data = await res.json()
+
+    return {
+        props: {
+            json_data,
+        },
+    }
+}
