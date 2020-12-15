@@ -13,7 +13,6 @@ class Archive extends React.Component{
     for (var i in json_data) {
         data.push(json_data[l-i-1])
     }
-    // console.log(data)
     return {
         data
     }
@@ -30,9 +29,14 @@ class Archive extends React.Component{
                     <List.Item>
                         <List.Item.Meta
                             avatar={<Avatar src={ item.top_img } />}
-                            //title={<a href={ process.env.thisIP + '/posts/' + item.id }>{ item.title }</a>}
                             title={ <Link href={ "/posts/" + item.id }>{item.title}</Link> }
-                            description={ item.detail }
+                            description={ 
+                                <>
+                                    { item.datetime  }
+                                    <br />
+                                    { item.detail  }
+                                </>
+                             }
                         />
                     </List.Item>
                 )}

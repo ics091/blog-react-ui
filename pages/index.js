@@ -1,6 +1,6 @@
 import React from 'react'
 import Glolayout from '../components/global_layout'
-import { List, Avatar, Space, Card } from 'antd';
+import { List, Typography, Space, Card } from 'antd';
 import Meta from 'antd/lib/card/Meta';
 import Link from 'next/link'
 
@@ -25,7 +25,7 @@ class All_Articles extends React.Component {
                 <>
                 <p>页面正在编写中，建议在
                 <Link href="/archive">
-                    <a>归档</a>
+                    归档
                 </Link>查看所有文章😊
                 </p>
                 <List
@@ -34,6 +34,7 @@ class All_Articles extends React.Component {
                     dataSource={this.props.data}
                     renderItem={item => (
                         <Link href={ "/posts/" + item.id }>
+                        <a>
                         <List.Item>
                              <Card
                                 hoverable
@@ -43,6 +44,7 @@ class All_Articles extends React.Component {
                              <Meta title={item.title} description={ item.detail }></Meta>
                              </Card>
                         </List.Item>
+                        </a>
                         </Link>
                     )}
                  />
