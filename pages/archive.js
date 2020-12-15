@@ -1,45 +1,46 @@
+import React from 'react'
 import Glolayout from '../components/global_layout'
-import '../config/config.js'
 import { List, Avatar, Space } from 'antd';
-import { MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons';
+import Link from 'next/link';
 
-const marked = require('marked')
+class Archive extends React.Component{
 
-export default function All_Articles({ json_data }) {
-  const data = []
-  var l = json_data.length
-  for (var i in json_data) {
-    data.push(json_data[l-i-1])
+  static async getInitialProps() {
+    const res = await fetch(process.env.serverIP + '/article/all')
+    const json_data = await res.json()
+    const data = []
+    var l = json_data.length
+    for (var i in json_data) {
+        data.push(json_data[l-i-1])
+    }
+    // console.log(data)
+    return {
+        data
+    }
   }
 
-  return(
-      <Glolayout>
-          <>
-          <List
-              itemLayout="horizontal"
-              dataSource={data}
-              renderItem={item => (
-                  <List.Item>
-                      <List.Item.Meta
-                          avatar={<Avatar src={ item.top_img } />}
-                          title={<a href={ 'http://localhost:3000/posts/' + item.id }>{ item.title }</a>}
-                          description={ item.detail }
-                      />
-                  </List.Item>
-              )}
-          />
-          </>
-      </Glolayout>
-  )
+  render() {
+    return(
+        <Glolayout>
+            <>
+            <List
+                itemLayout="horizontal"
+                dataSource={this.props.data}
+                renderItem={item => (
+                    <List.Item>
+                        <List.Item.Meta
+                            avatar={<Avatar src={ item.top_img } />}
+                            //title={<a href={ process.env.thisIP + '/posts/' + item.id }>{ item.title }</a>}
+                            title={ <Link href={ "/posts/" + item.id }>{item.title}</Link> }
+                            description={ item.detail }
+                        />
+                    </List.Item>
+                )}
+            />
+            </>
+        </Glolayout>
+    )
+  }
 }
 
-export async function getStaticProps() {
-    const res = await fetch('http://localhost:8080/article/all')
-    const json_data = await res.json()
-
-    return {
-        props: {
-            json_data,
-        },
-    }
-}
+export default Archive

@@ -5,6 +5,7 @@ const { TextArea } = Input;
 import ReactMarkdown from 'react-markdown'
 import gfm from 'remark-gfm'
 import { UploadOutlined, CheckOutlined, DashOutlined } from '@ant-design/icons';
+import { render } from 'react-dom';
 
 const { Option } = Select;
 const { Text, Link } = Typography;
@@ -154,7 +155,7 @@ class SoSo_Editor extends React.Component {
                             value={this.state.tags}
                             onChange={this.handleTagChange}
                         >
-                            {this.props._tags}
+                            {this.props._tags.map(tag=><Option key={tag.tag_name}>{tag.tag_name}</Option>)}
                         </Select>
 
                         <br />
@@ -188,7 +189,7 @@ class SoSo_Editor extends React.Component {
 
 export async function postArticle(json_post) {
     console.log(JSON.stringify(json_post))
-    const res = await fetch('http://localhost:8080/admin/addArticle', {
+    const res = await fetch(process.env.serverIP + '/admin/addArticle', {
         method: 'POST',
         mode: 'cors',
         headers: {
@@ -199,28 +200,33 @@ export async function postArticle(json_post) {
     const post_result = await res.json()
 }
 
-export async function getStaticProps() {
-    const res = await fetch('http://localhost:8080/option/allTags')
-    const json_tags = await res.json()
+class Editor extends React.Component{
 
-    return {
-        props: {
-            json_tags,
-        },
-    }
-}
+    static async getInitialProps() {
+        const res = await fetch(process.env.serverIP + '/option/allTags')
+        const json_tags = await res.json()
 
-export default function Editor({ json_tags }) {
-    const fetch_tags = { json_tags }
-    const children = [];
-    for(var t in fetch_tags.json_tags) {
-        // console.log(fetch_tags.json_tags[t]['tag_name']);
-        children.push(<Option key={fetch_tags.json_tags[t]['tag_name']}>{fetch_tags.json_tags[t]['tag_name']}</Option>);
-    }
+        const children = []
+
+        // for(var t in json_tags) {
+        //     //console.log(json_tags[t]['tag_name'])
+        //     children.push(json_tags[t]);
+        // }
+
+        // console.log(children)
     
-    return(
-        <>
-        <SoSo_Editor _tags={ children } />
-        </>
-    )
+        return {
+            json_tags
+        }
+    }
+
+    render() {
+        return(
+            <>
+            <SoSo_Editor _tags={this.props.json_tags} />
+            </>
+        )
+    }
 }
+
+export default Editor

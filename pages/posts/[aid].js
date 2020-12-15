@@ -1,6 +1,5 @@
 import React from 'react'
 import Glolayout from '../../components/global_layout'
-import '../../config/config.js'
 import ReactMarkdown from 'react-markdown'
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
 const renderers = {
@@ -16,7 +15,7 @@ class Post extends React.Component{
     if (Array.isArray(url)) {
       url = url[0];
     }
-    const res = await fetch('http://localhost:8080/article/' + url)
+    const res = await fetch(process.env.serverIP + '/article/' + url)
     const json_data = await res.json()
   
     return {

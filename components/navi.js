@@ -37,7 +37,9 @@ class Navi extends React.Component {
             </Link>
             </Menu.Item>
             <Menu.Item key="tags" icon={<TagOutlined />}>
-            标签
+            <Link href="/tags">
+                <a>标签</a>
+            </Link>
             </Menu.Item>
             <Menu.Item key="about" icon={<ContactsOutlined />}>
             <a href="https://github.com/ics091" target="_blank" rel="noopener noreferrer">
