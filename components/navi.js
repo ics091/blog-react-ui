@@ -41,10 +41,10 @@ class Navi extends React.Component {
                 <a>标签</a>
             </Link>
             </Menu.Item>
-            <Menu.Item key="about" icon={<ContactsOutlined />}>
-            <a href="https://github.com/ics091" target="_blank" rel="noopener noreferrer">
-                关于
-            </a>
+            <Menu.Item key="aboutme" icon={<ContactsOutlined />}>
+            <Link href="/aboutme">
+                <a>关于</a>
+            </Link>
             </Menu.Item>
         </Menu>
         );

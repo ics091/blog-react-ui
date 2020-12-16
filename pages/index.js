@@ -38,7 +38,7 @@ class All_Articles extends React.Component {
                         <List.Item>
                              <Card
                                 hoverable
-                                style={{ width: 280 }}
+                                style={{ width: 260 }}
                                 cover={<img src={item.top_img} />}
                              >
                              <Meta title={item.title} description={ item.detail }></Meta>

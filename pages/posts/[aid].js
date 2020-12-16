@@ -3,6 +3,7 @@ import Glolayout from '../../components/global_layout'
 import ReactMarkdown from 'react-markdown'
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
 import { Tag } from 'antd';
+import { TagOutlined } from '@ant-design/icons';
 
 const renderers = {
   code: ({language, value}) => {
