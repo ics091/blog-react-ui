@@ -28,11 +28,19 @@ class All_Articles extends React.Component {
                     归档
                 </Link>查看所有文章😊
                 </p>
-                <List
-                    grid={{column: 1 }}
-                    itemLayout="horizontal"
+                 <List
+                    grid={{
+                    gutter: 16,
+                    xs: 1,
+                    sm: 1,
+                    md: 2,
+                    lg: 2,
+                    xl: 3,
+                    xxl: 3,
+                    }}
                     dataSource={this.props.data}
                     renderItem={item => (
+                    <List.Item>
                         <Link href={ "/posts/" + item.id }>
                         <a>
                         <List.Item>
@@ -46,8 +54,9 @@ class All_Articles extends React.Component {
                         </List.Item>
                         </a>
                         </Link>
+                    </List.Item>
                     )}
-                 />
+                />
                 </>
             </Glolayout>
         )
