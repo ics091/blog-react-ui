@@ -10,6 +10,9 @@ import { render } from 'react-dom';
 const { Option } = Select;
 const { Text, Link } = Typography;
 
+// import * as React from 'react';
+import Adminlayout from '../../components/admin_layout'
+
 function ConfirmPop(props) {
 
     let title = props.submit_content.title;
@@ -118,7 +121,7 @@ class SoSo_Editor extends React.Component {
     render() {
         return (
             <div className="site-card-border-less-wrapper">
-                <Card title="SoSo编辑器" bordered={true}>
+                {/* <Card title="SoSo编辑器" bordered={true}> */}
                     <Row>
                     <Col span={12}>
                     <form>
@@ -181,7 +184,7 @@ class SoSo_Editor extends React.Component {
                     </Col>
 
                     </Row>
-                </Card>
+                {/* </Card> */}
             </div>
         );
     }
@@ -206,7 +209,7 @@ class Editor extends React.Component{
         const res = await fetch(process.env.serverIP + '/option/allTags')
         const json_tags = await res.json()
 
-        const children = []
+        // const children = []
 
         // for(var t in json_tags) {
         //     //console.log(json_tags[t]['tag_name'])
@@ -222,9 +225,9 @@ class Editor extends React.Component{
 
     render() {
         return(
-            <>
+            <Adminlayout>
             <SoSo_Editor _tags={this.props.json_tags} />
-            </>
+            </Adminlayout>
         )
     }
 }

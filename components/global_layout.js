@@ -35,6 +35,8 @@ export default function glo_Layout({ children }) {
             ICSKKK BLOG ©2020 Created by icskkk
             <br />
             <Link href="https://beian.miit.gov.cn/#/home">赣ICP备2020014661号</Link>
+            <br />
+            优秀博客订阅：<p color='red'><Link href="https://www.oyohyee.com/">OhYee</Link> <Link href="https://chbczl.cn/">渡</Link> <Link href="https://www.ooordinary.com/">ooordinary</Link></p>
             </Footer>
         </Layout>
     )

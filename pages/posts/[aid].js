@@ -2,7 +2,7 @@ import React from 'react'
 import Glolayout from '../../components/global_layout'
 import ReactMarkdown from 'react-markdown'
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
-import { Tag } from 'antd';
+import { Tag, Card } from 'antd';
 import { TagOutlined } from '@ant-design/icons';
 
 const renderers = {
@@ -37,7 +37,12 @@ class Post extends React.Component{
         <Glolayout>
             <>
             { show_tags }
-            <ReactMarkdown renderers={renderers} source={this.props.json_data['content']} />
+            <p></p>
+            <Card type='inner'>
+              <div className='post'>
+                <ReactMarkdown renderers={renderers} source={this.props.json_data['content']} />
+              </div>
+            </Card>
             <br />
             <p>发布于{this.props.json_data['datetime']}</p>
             </>

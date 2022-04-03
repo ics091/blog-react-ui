@@ -13,7 +13,7 @@ class Aboutme extends React.Component{
             <div style={{ textAlign: 'center' }}>
             <Avatar
                 size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }}
-                src={"https://wx1.sinaimg.cn/large/e4160060ly1gkulfi8d35j20hs0hsha9.jpg"}
+                src={"https://resources.icskkk.com/site_logo.png"}
             />
             <br />
             👇

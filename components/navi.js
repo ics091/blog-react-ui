@@ -1,7 +1,7 @@
 import React from 'react';
 import 'antd/dist/antd.css'
 import { Menu } from 'antd';
-import { RocketOutlined, ContainerOutlined, TagOutlined, ContactsOutlined} from '@ant-design/icons';
+import { RocketOutlined, ContainerOutlined, TagOutlined, ContactsOutlined, UserOutlined} from '@ant-design/icons';
 import Link from 'next/link'
 import { withRouter } from 'next/router'
 
