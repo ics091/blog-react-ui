@@ -102,7 +102,7 @@ class SiderDemo extends React.Component {
     } else {
       return(
         <>
-        <Link href="http://127.0.0.1/api/user/qq_login">You should login in...</Link>
+        <Link href={ process.env.serverIP + "/user/github_login" }>You should login in...</Link>
         </>
       )
     }
